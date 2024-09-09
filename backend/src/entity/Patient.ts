@@ -1,20 +1,24 @@
 // src/entity/Patient.ts
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Schein } from './Schein';
+import { Schein } from './schein/Schein';
+import { PatientInsurance } from './PatientInsurance';
 
 @Entity()
 export class Patient {
   @PrimaryGeneratedColumn()
-  id: number = 0;
+  id !: number;
 
   @Column()
-  name: string = "";
+  firstLame: string = "";
 
   @Column()
-  dateOfBirth: Date = new Date();
+  lastName: string = "";
 
-  @OneToMany(() => Schein, schein => schein.patient)
-  scheine: Schein[] = [];
+  @Column({ type: 'date' })
+  dateOfBirth ?: Date;
+
+  @OneToMany(() => PatientInsurance, (patientInsurance) => patientInsurance.patient)
+  patientInsurances: PatientInsurance[] = [];
 }
 
 export default Patient; 

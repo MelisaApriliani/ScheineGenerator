@@ -1,14 +1,17 @@
 // src/entity/Doctor.ts
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Schein } from './Schein';
+import { Schein } from './schein/Schein';
 
 @Entity()
 export class Doctor {
   @PrimaryGeneratedColumn()
-  id: number = 0;
+  id !: number ;
 
   @Column()
-  name: string = "";
+  firstLame: string = "";
+
+  @Column()
+  lastName: string = "";
 
   @Column()
   specialization: string = "";
@@ -22,8 +25,6 @@ export class Doctor {
   @Column()
   email: string = "";
 
-  @OneToMany(() => Schein, schein => schein.doctor)
-  scheine: Schein[] = [];
 }
 
 export default Doctor;

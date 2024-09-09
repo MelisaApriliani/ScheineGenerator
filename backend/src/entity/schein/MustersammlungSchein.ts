@@ -19,7 +19,7 @@ export class Mustersammlung extends Schein {
   @JoinColumn({ name: 'hospital_treatment_type_id' })
   hospitalTreatmentPerscriptionType ?: HospitalTreatmentPerscriptionType
 
-  @Column({ nullable: true })
+  @ManyToOne(() => HealthcareFacility, { nullable: true })
   @JoinColumn({ name: 'recommended_hospital_id' })
   nearestRecommendedHospital ?: HealthcareFacility; // optional
 

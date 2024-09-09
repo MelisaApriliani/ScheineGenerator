@@ -35,7 +35,7 @@ const dataSource = new DataSource({
     Mustersammlung,
     ScheinType],
   migrations: ['src/migration/**/*.ts'],
-  subscribers: ['src/subscriber/**/*.ts'],
+  
 });
 
 export default dataSource;

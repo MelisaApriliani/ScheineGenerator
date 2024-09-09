@@ -11,7 +11,6 @@ export class PatientInsurance {
   @JoinColumn({ name: 'patient_id' })
   patient !: Patient;
 
-  @ManyToOne(() => InsuranceProvider, (insuranceProvider) => insuranceProvider.patientInsurances)
   @JoinColumn({ name: 'insurance_provider_id' })
   insuranceProvider !: InsuranceProvider;
 

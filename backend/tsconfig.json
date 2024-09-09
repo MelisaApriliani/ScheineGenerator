@@ -1,17 +1,13 @@
 {
     "compilerOptions": {
-      "experimentalDecorators": true, // Enables support for decorators
-      "emitDecoratorMetadata": true,
-      "module": "commonjs", // or "esnext"
-      "target": "es6",
-      "strict": true,
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "outDir": "./dist",
-      "rootDir": "./src",  // Ensure rootDir is set to "src"
-      "resolveJsonModule": true,
-      "moduleResolution": "node"
+        "module": "commonjs",
+        "target": "es6",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "sourceMap": true,
+        "outDir": "./dist",
+        "strictPropertyInitialization": false,
+        "esModuleInterop": true
     },
     "include": ["src/**/*.ts"],  // Ensure this includes the `src` folder
     "exclude": ["node_modules"]

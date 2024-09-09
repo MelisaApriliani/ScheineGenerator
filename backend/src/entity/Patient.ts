@@ -18,7 +18,7 @@ export class Patient {
   dateOfBirth ?: Date;
 
   @OneToMany(() => PatientInsurance, (patientInsurance) => patientInsurance.patient)
-  patientInsurances: PatientInsurance[] = [];
+  patientInsurances: PatientInsurance[];
 }
 
 export default Patient; 

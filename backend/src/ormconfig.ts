@@ -1,5 +1,17 @@
 import { DataSource } from 'typeorm';
 import dotenv from 'dotenv';
+import { Doctor } from './entity/Doctor';
+import { Patient } from './entity/Patient';
+import { PatientInsurance } from './entity/PatientInsurance';
+import { InsuranceProvider } from './entity/InsuranceProvider';
+import { HealthcareFacility} from './entity/HealthcareFacility';
+import { HospitalTreatmentPerscriptionType} from './entity/HospitalTreatmentPerscriptionType';
+import { Schein} from './entity/schein/Schein';
+import { ScheinType} from './entity/schein/ScheinType';
+import { Mustersammlung} from './entity/schein/MustersammlungSchein';
+
+
+
 
 // Load environment variables from .env file
 dotenv.config();
@@ -13,7 +25,15 @@ const dataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: false,
   logging: true,
-  entities: ['src/entity/**/*.ts'],
+  entities: [Doctor, 
+    Patient, 
+    PatientInsurance,
+    InsuranceProvider,
+    HealthcareFacility,
+    HospitalTreatmentPerscriptionType,
+    Schein,
+    Mustersammlung,
+    ScheinType],
   migrations: ['src/migration/**/*.ts'],
   subscribers: ['src/subscriber/**/*.ts'],
 });

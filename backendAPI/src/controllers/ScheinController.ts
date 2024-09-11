@@ -9,6 +9,7 @@ import { HospitalTreatmentPerscriptionType } from '../entity/HospitalTreatmentPe
 import { ScheinType } from '../entity/schein/ScheinType';
 import PDFKit from 'pdfkit';
 import { InsuranceProvider } from '../entity/InsuranceProvider';
+import { DeepPartial } from 'typeorm';
 
 // Save mustersammlung infromation
 export const createSchein = async (req: Request, res: Response) => {
@@ -71,8 +72,8 @@ export const createSchein = async (req: Request, res: Response) => {
         }
 
         // check if scheinType is valid
-        const scheinTypeEntity = await scheinTypeRepository.findOneBy({ id: scheinTypeId });
-        if (!scheinTypeEntity) {
+        const scheinTypeEntity: ScheinType | null = await scheinTypeRepository.findOneBy({ id: scheinTypeId });
+        if (!scheinTypeEntity || scheinTypeEntity == null) {
             return res.status(400).json({ error: 'Schein type not found' });
         }
 
@@ -82,35 +83,37 @@ export const createSchein = async (req: Request, res: Response) => {
             return res.status(400).json({ error: 'Healthcare facility not found' });
         }
 
-        // check if hospitalTreatmentPerscriptionType exists in db
-        const hospitalTreatmentPerscriptionType = await hospitalTreatmentPerscriptionTypeRepository.findOneBy({ id: hospitalTreatmentPerscriptionTypeId });
-        if (!hospitalTreatmentPerscriptionType) {
-            return res.status(400).json({ error: 'Hospital treatment perscription type not found' });
-        }
-
-        // check if nearestRecommendedHospital exists in db
-        const nearestRecommendedHospital = await healthcareFacilityRepository.findOneBy({ id: nearestRecommendedHospitalId });
-        if (!nearestRecommendedHospital) {
-            return res.status(400).json({ error: 'Nearest recommended hospital not found' });
+        // check if patient need perscription for hospital treatment
+        let hospitalTreatmentPerscriptionType = null;
+        hospitalTreatmentPerscriptionType = await hospitalTreatmentPerscriptionTypeRepository.findOneBy({ id: hospitalTreatmentPerscriptionTypeId });
+        let nearestRecommendedHospital = null;
+        if (hospitalTreatmentPerscriptionType) {
+            // check if nearestRecommendedHospital exists in db
+            nearestRecommendedHospital = await healthcareFacilityRepository.findOneBy({ id: nearestRecommendedHospitalId });
+            if (!nearestRecommendedHospital) {
+                return res.status(400).json({ error: 'Nearest recommended hospital not found' });
+            }
         }
 
         // Create Mustersammlung entry
+        
             const mustersammlung = mustersammlungRepository.create({
-            type: scheinTypeEntity,
-            patient: patientEntity,
-            patientInsurance: patientInsuranceEntity,
-            doctor: doctor,
-            date: new Date(date),
-            healthcareFacility: healthCareFacility,
-            hospitalTreatmentPerscriptionType,
-            nearestRecommendedHospital,
-            perscriptionDetails,
-            diagnose
-        });
+                type: scheinTypeEntity,
+                patient: patientEntity,
+                patientInsurance: patientInsuranceEntity,
+                doctor: doctor,
+                date: new Date(date),
+                healthcareFacility: healthCareFacility,
+                hospitalTreatmentPerscriptionType: hospitalTreatmentPerscriptionType,
+                nearestRecommendedHospital,
+                perscriptionDetails,
+                diagnose
+            } as DeepPartial<Mustersammlung> );
+        
 
         await mustersammlungRepository.save(mustersammlung);
 
-        return res.status(200).json({ error: 'Successfully save schein information' });
+        return res.status(200).json({ message: 'Successfully save schein information', data:mustersammlung});
 
        
     } catch (error) {

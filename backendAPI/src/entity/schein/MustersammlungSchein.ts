@@ -6,7 +6,7 @@ import { HealthcareFacility } from '../HealthcareFacility';
 
 @Entity()
 export class Mustersammlung extends Schein {
-  @ManyToOne(() => PatientInsurance)
+  @ManyToOne(() => PatientInsurance, { nullable: true })
   @JoinColumn({ name: 'patient_insurance_id' })
   patientInsurance?: PatientInsurance;
 
@@ -14,7 +14,7 @@ export class Mustersammlung extends Schein {
   @JoinColumn({ name: 'healthcare_facility_id' })
   healthcareFacility!: HealthcareFacility;
 
-  @ManyToOne(() => HospitalTreatmentPerscriptionType)
+  @ManyToOne(() => HospitalTreatmentPerscriptionType, { nullable: true })
   @JoinColumn({ name: 'hospital_treatment_type_id' })
   hospitalTreatmentPerscriptionType?: HospitalTreatmentPerscriptionType;
 

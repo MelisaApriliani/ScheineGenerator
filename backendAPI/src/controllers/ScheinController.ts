@@ -36,8 +36,7 @@ export const createSchein = async (req: Request, res: Response) => {
         }
 
         // If insuranceProviderId == 0 , meaning patient do not pay using insurance
-        let patientInsuranceEntity = new PatientInsurance(insuranceProviderId);
-
+        let patientInsuranceEntity;
         if(insuranceProviderId !== 0){
             //check if patient Insurance exists
             const foundPatientInsuranceEntity = await patientInsuranceRepository.findOneBy({ id: insuranceProviderId, patient:patientEntity });
@@ -96,7 +95,7 @@ export const createSchein = async (req: Request, res: Response) => {
         }
 
         // Create Mustersammlung entry
-        const mustersammlung = mustersammlungRepository.create({
+            const mustersammlung = mustersammlungRepository.create({
             type: scheinTypeEntity,
             patient: patientEntity,
             patientInsurance: patientInsuranceEntity,

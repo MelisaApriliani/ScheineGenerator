@@ -10,5 +10,9 @@
     "forceConsistentCasingInFileNames": true,
     "emitDecoratorMetadata": true,      // Required for TypeORM decorators
     "experimentalDecorators": true       // Required for TypeORM decorators
-  }
+  },
+  "include": [
+    "src/**/*.ts",   
+    "src/fontkit.d.ts" 
+  ]
 }

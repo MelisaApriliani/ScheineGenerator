@@ -4,6 +4,6 @@ import { createSchein, generateScheinPDF } from '../controllers/ScheinController
 const router = express.Router();
 
 router.post('/schein', createSchein);            
-router.get('/schein/:id/preview', generateScheinPDF); 
+router.get('/generate-pdf/:scheinTypeId/:scheinId', generateScheinPDF); 
 
 export default router;

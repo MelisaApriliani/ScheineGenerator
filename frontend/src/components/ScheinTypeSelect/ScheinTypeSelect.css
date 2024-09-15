@@ -1,0 +1,32 @@
+.schein-type-select-container {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .schein-type-label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .schein-type-dropdown {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    width: 100%;
+  }
+  
+  .schein-type-dropdown:focus {
+    outline: none;
+    border-color: #007bff;
+    background-color: #fff;
+  }
+  
+  .schein-type-error {
+    color: red;
+    margin-top: 5px;
+    font-size: 12px;
+  }

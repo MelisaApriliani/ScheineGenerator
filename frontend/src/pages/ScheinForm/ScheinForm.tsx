@@ -14,7 +14,7 @@ const ScheinForm: React.FC = () => {
     setSelectedScheinType(typeId);
     // Other logic related to the selected Schein type
   };
-  
+
   const [formData, setFormData] = useState<any>({});
 
   const handleChange = (field: string, value: any) => {
@@ -43,7 +43,7 @@ const ScheinForm: React.FC = () => {
         onSelectType={handleScheinTypeChange}
       />
       {/* <ScheinTypeSelect onScheinTypeChange={(value) => handleChange('scheinType', value)} /> */}
-      <CommonInfo onChange={handleChange} />
+      {/* <CommonInfo onChange={handleChange} /> */}
       <PatientInfo onChange={handleChange} />
       {/* <HealthInfo onChange={handleChange} />
       <PaymentInfo onChange={handleChange} /> */}

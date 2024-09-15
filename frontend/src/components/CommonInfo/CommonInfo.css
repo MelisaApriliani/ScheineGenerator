@@ -1,0 +1,25 @@
+.common-info {
+    padding: 16px;
+    background-color: #f8d2c2;
+    border: 2px solid #ec3c35;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+  
+.form-group {
+    margin-bottom: 12px;
+}
+  
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+  
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

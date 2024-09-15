@@ -1,10 +1,14 @@
-.schein-form {
+
+  .schein-form {
     width: 70%;
     max-width: 1000px;
     padding: 16px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 100px;
+    margin-bottom: 100px; /* Ensure 100px space below the form */
+    box-sizing: border-box;
   }
   
   .schein-form h2 {

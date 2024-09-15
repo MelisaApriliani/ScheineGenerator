@@ -19,6 +19,6 @@ export abstract class Schein {
   @JoinColumn({ name: 'doctor_id' })
   doctor!: Doctor;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'date', nullable: false })
   date: Date = new Date();
 }

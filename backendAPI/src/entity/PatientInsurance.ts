@@ -11,6 +11,7 @@ export class PatientInsurance {
   @JoinColumn({ name: 'patient_id' })
   patient !: Patient;
 
+  @ManyToOne(() => InsuranceProvider, { nullable: true })
   @JoinColumn({ name: 'insurance_provider_id' })
   insuranceProvider !: InsuranceProvider;
 
@@ -19,4 +20,8 @@ export class PatientInsurance {
 
   @Column({ nullable: true })
   status: string = ""; // Insurance status (e.g., active, inactive)
+
+  constructor(id:number) {
+    this.id = id;
+  }
 }

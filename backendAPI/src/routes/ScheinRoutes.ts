@@ -13,4 +13,5 @@ router.get('/insuranceprovider', getAllInsuranceProvider);
 router.get('/hospitaltreatmenttype', getAllHospitalTreatmentType); 
 router.get('/scheintype', getAllScheinType);
 
+
 export default router;

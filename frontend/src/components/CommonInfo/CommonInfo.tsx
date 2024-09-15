@@ -35,7 +35,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({ onChange, formData }) => {
           const formattedDate = date.toISOString().split('T')[0];
           onChange(FIELD_NAMES.DATE, formattedDate);
         }
-      };
+    };
 
     return (
         <div>
@@ -50,7 +50,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({ onChange, formData }) => {
                         onChange={handleDateChange}
                         minDate={today}
                         dateFormat="yyyy-MM-dd" // Display format
-                        />        
+                    />        
                 </div>
                 <div className="form-group">
                     <label>Healthcare Facility</label>

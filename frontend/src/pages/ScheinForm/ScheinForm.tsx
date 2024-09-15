@@ -50,7 +50,7 @@ const ScheinForm: React.FC = () => {
         {selectedScheinType === 1 && (
             <>
             <CommonInfo onChange={handleChange} formData={formData} />
-            <PatientInfo onChange={handleChange} />
+            <PatientInfo onChange={handleChange} formData={formData} />
 
             <button onClick={handleSubmit}>Preview & Save</button>
             </>

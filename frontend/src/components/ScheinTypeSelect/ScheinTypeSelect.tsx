@@ -30,6 +30,7 @@ const ScheinTypeSelect: React.FC<ScheinTypeSelectProps> = ({ selectedType, onSel
       <label htmlFor="scheinType" className="schein-type-label">
         Schein Type
       </label>
+      <div className="schein-type-info">
       <select
         id="scheinType"
         value={selectedType}
@@ -44,6 +45,7 @@ const ScheinTypeSelect: React.FC<ScheinTypeSelectProps> = ({ selectedType, onSel
         ))}
       </select>
       {error && <div className="schein-type-error">{error}</div>}
+      </div>
     </div>
   );
 };

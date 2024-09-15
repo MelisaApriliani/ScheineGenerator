@@ -2,9 +2,10 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './PatientInfo.css';
+// import { FIELD_NAMES } from '../../constants/FieldName'; 
 
 interface PatientInfoProps {
-  onChange: (field: string, value: any) => void;
+    onChange: (field: string, value: any) => void;
 }
 
 const PatientInfo: React.FC<PatientInfoProps> = ({ onChange }) => {

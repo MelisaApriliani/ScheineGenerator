@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './PatientInfo.css';
@@ -7,12 +7,18 @@ import { FIELD_NAMES } from '../../constants/FieldName';
 interface PatientInfoProps {
     onChange: (field: string, value: any) => void;
     formData: any;
+    errors: { [key: string]: string };
 }
 
-const PatientInfo: React.FC<PatientInfoProps> = ({ onChange, formData }) => {
+const PatientInfo: React.FC<PatientInfoProps> = ({ onChange, formData, errors }) => {
     const [patient, setPatient] = useState<any[]>([]);
 
     const today = new Date();
+
+    useEffect(() => {
+       
+        handleDateChange(today);
+    }, []);
 
     const handleDateChange = (date: Date | null) => {
         if (date) {
@@ -26,27 +32,36 @@ const PatientInfo: React.FC<PatientInfoProps> = ({ onChange, formData }) => {
         }
     };
 
-    const handleTextFieldChange = (key:string, value: string | null) => {
-        if (value) {
-          
-          setPatient((prevData) => ({
+    const handleTextFieldChange = (key: string, value: string | null) => {
+        setPatient((prevData) => {
+          const updatedPatient = {
             ...prevData,
             [key]: value,
-          }));
-
-          onChange(FIELD_NAMES.PATIENT, patient);
-        }
-    };
+          };
+      
+          // Now use the updated patient data to update the formData
+          onChange(FIELD_NAMES.PATIENT, updatedPatient);
+      
+          return updatedPatient;
+        });
+      };
 
     return (
+        <div>
+        <label className="schein-type-label">
+                Patient Information
+            </label>
         <div className="patient-info">
             <div className="form-group">
                     <label>First Name</label>
-                    <input type="text" onChange={(e) => handleTextFieldChange(FIELD_NAMES.FIRST_NAME, e.target.value)} />
+                    <input type="text" value={formData[FIELD_NAMES.PATIENT]?.[FIELD_NAMES.FIRST_NAME] || ""} onChange={(e) => handleTextFieldChange(FIELD_NAMES.FIRST_NAME, e.target.value)} />
+                    {errors[FIELD_NAMES.FIRST_NAME] && <div className="error">{errors[FIELD_NAMES.FIRST_NAME]}</div>}
+
             </div>
             <div className="form-group">
                     <label>Last Name</label>
-                    <input type="text" onChange={(e) => handleTextFieldChange(FIELD_NAMES.LAST_NAME, e.target.value)} />
+                    <input type="text" value={formData[FIELD_NAMES.PATIENT]?.[FIELD_NAMES.LAST_NAME] || ""} onChange={(e) => handleTextFieldChange(FIELD_NAMES.LAST_NAME, e.target.value)} />
+                    {errors[FIELD_NAMES.LAST_NAME] && <div className="error">{errors[FIELD_NAMES.LAST_NAME]}</div>}
             </div>
             <div className="form-group">
                 <label>Date of Birth</label>
@@ -55,8 +70,10 @@ const PatientInfo: React.FC<PatientInfoProps> = ({ onChange, formData }) => {
                     onChange={handleDateChange}
                     maxDate={today}
                     dateFormat="yyyy-MM-dd"
-                />            
+                />  
+                {errors[FIELD_NAMES.DATE_OF_BIRTH] && <div className="error">{errors[FIELD_NAMES.DATE_OF_BIRTH]}</div>}          
             </div>
+        </div>
         </div>
     );
 };

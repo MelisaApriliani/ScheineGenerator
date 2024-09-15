@@ -7,10 +7,11 @@ import { FIELD_NAMES } from '../../constants/FieldName';
 
 interface CommonInfoProps {
     onChange: (field: string, value: any) => void;
-    formData: any; 
+    formData: any;
+    errors: { [key: string]: string };
 }
 
-const CommonInfo: React.FC<CommonInfoProps> = ({ onChange, formData }) => {
+const CommonInfo: React.FC<CommonInfoProps> = ({ onChange, formData, errors }) => {
     const [facilities, setFacilities] = useState<any[]>([]);
     const [doctors, setDoctors] = useState<any[]>([]);
 
@@ -19,6 +20,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({ onChange, formData }) => {
     useEffect(() => {
         ScheinAPI.getHealthcareFacilities().then((response) => setFacilities(response.data.data));
         ScheinAPI.getDoctors().then((response) => setDoctors(response.data.data));
+        handleDateChange(today);
     }, []);
 
     const handleFacilityChange = (option: any) => {
@@ -39,7 +41,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({ onChange, formData }) => {
 
     return (
         <div>
-            <label htmlFor="common-info" className="schein-type-label">
+            <label className="schein-type-label">
                 Basic Information
             </label>
             <div className="common-info">
@@ -50,7 +52,8 @@ const CommonInfo: React.FC<CommonInfoProps> = ({ onChange, formData }) => {
                         onChange={handleDateChange}
                         minDate={today}
                         dateFormat="yyyy-MM-dd" // Display format
-                    />        
+                    /> 
+                    {errors[FIELD_NAMES.DATE] && <div className="error">{errors[FIELD_NAMES.DATE]}</div>}
                 </div>
                 <div className="form-group">
                     <label>Healthcare Facility</label>
@@ -59,6 +62,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({ onChange, formData }) => {
                         onChange={handleFacilityChange}
                         placeholder="Select Healthcare Facility"
                     />
+                    {errors[FIELD_NAMES.HEALTHCARE_FACILITY_ID] && <div className="error">{errors[FIELD_NAMES.HEALTHCARE_FACILITY_ID]}</div>}
                 </div>
                 <div className="form-group">
                     <label>Doctor</label>
@@ -67,6 +71,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({ onChange, formData }) => {
                         onChange={handleDoctorChange}
                         placeholder="Select Doctor"
                     />
+                    {errors[FIELD_NAMES.DOCTOR_ID] && <div className="error">{errors[FIELD_NAMES.DOCTOR_ID]}</div>}
                 </div>
             </div>
         </div>

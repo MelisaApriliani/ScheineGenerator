@@ -6,14 +6,17 @@ import PatientInfo from '../../components/PatientInfo/PatientInfo';
 // import PaymentInfo from '../PaymentInfo/PaymentInfo';
 import { ScheinAPI } from '../../webservices/ScheinAPI';
 import './ScheinForm.css';
-import { FormData  } from '../../constants/FieldName'; 
+import { FormData  } from '../../constants/FieldName';
+import { validateCommonInfo, validatePatientInfo } from '../../util/Validation'; 
 
 const ScheinForm: React.FC = () => {
   const [selectedScheinType, setSelectedScheinType] = useState<number | undefined>(undefined);
   const [formData, setFormData] = useState<FormData>({} as FormData);  
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   // Log formData whenever it changes
   useEffect(() => {
     console.log("FormData:", JSON.stringify(formData, null, 2));
+    console.log("formErrors", JSON.stringify(errors, null, 2));
   }, [formData]);
 
   const handleScheinTypeChange = (typeId: number) => {
@@ -29,14 +32,39 @@ const ScheinForm: React.FC = () => {
     }));
   };
 
+  const validateForm = () => {
+    // Initialize formErrors as an empty object
+    let formErrors: Record<string, any> = {};
+
+    console.log("formErrors before validation:", JSON.stringify(formErrors, null, 2));
+
+    // Validate based on the selected Schein type
+    if (selectedScheinType === 1) {
+        // Merge errors from validateCommonInfo with formErrors
+        formErrors = { ...formErrors, ...validateCommonInfo(formData) };
+        // Merge errors from validatePatientInfo with formErrors
+        formErrors = { ...formErrors, ...validatePatientInfo(formData) };
+    }
+
+    // Set the combined errors
+    setErrors(formErrors);
+
+    console.log("formErrors after validation:", JSON.stringify(formErrors, null, 2));
+    return Object.keys(formErrors).length === 0;
+  };
+
   const handleSubmit = async () => {
-    try {
-      const response = await ScheinAPI.createSchein(formData);
-      await ScheinAPI.generatePdf(response.data.type.id, response.data.id);
-      alert('Schein created and PDF generated successfully!');
-    } catch (error) {
-      console.error('Error creating schein:', error);
-      alert('Error creating schein.');
+    if (validateForm()) {
+        try {
+            const response = await ScheinAPI.createSchein(formData);
+            await ScheinAPI.generatePdf(response.data.type.id, response.data.id);
+            alert('Schein created and PDF generated successfully!');
+        } catch (error) {
+            console.error('Error creating schein:', error);
+            alert('Error creating schein.');
+        }
+    }else {
+        alert('Please enter all required fields before submitting.');
     }
   };
 
@@ -49,8 +77,8 @@ const ScheinForm: React.FC = () => {
         />
         {selectedScheinType === 1 && (
             <>
-            <CommonInfo onChange={handleChange} formData={formData} />
-            <PatientInfo onChange={handleChange} formData={formData} />
+            <CommonInfo onChange={handleChange} formData={formData} errors={errors} />
+            <PatientInfo onChange={handleChange} formData={formData} errors={errors} />
 
             <button onClick={handleSubmit}>Preview & Save</button>
             </>

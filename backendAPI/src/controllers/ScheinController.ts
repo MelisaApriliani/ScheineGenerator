@@ -12,7 +12,7 @@ import { DeepPartial } from 'typeorm';
 import { Handlers } from '../handlers';
 import { log } from 'console';
 
-// Save mustersammlung infromation
+// Save schein infromation
 export const createSchein = async (req: Request, res: Response) => {
     try {
         const { patient, scheinTypeId, date, doctorId, details } = req.body;
@@ -35,113 +35,15 @@ export const createSchein = async (req: Request, res: Response) => {
                 if(result !== null){
                     return res.status(result.status).json({ message: result.message, data:result.data});
                 }
-
             })
      
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }    
-
-        // const { firstName, lastName, dateOfBirth, insuranceNo, status, insuranceProviderId } = patient;
-        // const { healthCareFacilityId, diagnose, perscriptionDetails, hospitalTreatmentPerscriptionTypeId, nearestRecommendedHospitalId } = details;
-
-        // // Get repositories
-        // const patientRepository = AppDataSource.getRepository(Patient);
-        // const patientInsuranceRepository = AppDataSource.getRepository(PatientInsurance);
-        // const insuranceProviderRepository = AppDataSource.getRepository(InsuranceProvider);
-        // const doctorRepository = AppDataSource.getRepository(Doctor);
-        // const scheinTypeRepository = AppDataSource.getRepository(ScheinType);
-        // const healthcareFacilityRepository = AppDataSource.getRepository(HealthcareFacility);
-        // const hospitalTreatmentPerscriptionTypeRepository = AppDataSource.getRepository(HospitalTreatmentPerscriptionType);
-        // const mustersammlungRepository = AppDataSource.getRepository(Mustersammlung);
-
-        // check if scheinType is valid
-        // const scheinTypeEntity: ScheinType | null = await scheinTypeRepository.findOneBy({ id: scheinTypeId });
-        // if (!scheinTypeEntity || scheinTypeEntity == null) {
-        //     return res.status(400).json({ error: 'Schein type not found' });
-        // }
-
-        // // Check if patient exists, otherwise save new patient data
-        // let patientEntity = await patientRepository.findOneBy({ firstName, lastName, dateOfBirth });
-        // if (!patientEntity) {
-        //     patientEntity = patientRepository.create({ firstName, lastName, dateOfBirth });
-        //     await patientRepository.save(patientEntity);
-        // }
-
-        // If insuranceProviderId == 0 , meaning patient do not pay using insurance
-        // let patientInsuranceEntity;
-        // if(insuranceProviderId !== 0){
-        //     //check if patient Insurance exists
-        //     const foundPatientInsuranceEntity = await patientInsuranceRepository.findOneBy({ id: insuranceProviderId, patient:patientEntity });
-            
-        //     //no information on patient insurance in DB, store patient insurance information
-        //     if (!foundPatientInsuranceEntity) {
-                
-        //         //check if insuranceProvider exists in DB
-        //         const insuranceProvider = await insuranceProviderRepository.findOneBy({ id: insuranceProviderId });
-        //         if (!insuranceProvider) {
-        //             return res.status(400).json({ error: 'Insurance Provider not found!' });
-        //         }
-
-        //         patientInsuranceEntity = patientInsuranceRepository.create({
-        //             patient: patientEntity,
-        //             insuranceProvider: insuranceProvider,
-        //             insuranceNo,
-        //             status
-        //         });
-        //         await patientInsuranceRepository.save(patientInsuranceEntity);
-
-        //     }else{
-        //         patientInsuranceEntity = foundPatientInsuranceEntity;
-        //     }
-        
-        // }
-
-        // // check if doctor exists in db
-        // const doctor = await doctorRepository.findOneBy({ id: doctorId });
-        // if (!doctor) {
-        //     return res.status(400).json({ error: 'Doctor not found' });
-        // }
-
-        // // check if healthCareFacility exists in db
-        // const healthCareFacility = await healthcareFacilityRepository.findOneBy({ id: healthCareFacilityId });
-        // if (!healthCareFacility) {
-        //     return res.status(400).json({ error: 'Healthcare facility not found' });
-        // }
-
-        // // check if patient need perscription for hospital treatment
-        // let hospitalTreatmentPerscriptionType = null;
-        // hospitalTreatmentPerscriptionType = await hospitalTreatmentPerscriptionTypeRepository.findOneBy({ id: hospitalTreatmentPerscriptionTypeId });
-        // let nearestRecommendedHospital = null;
-        // if (hospitalTreatmentPerscriptionType) {
-        //     // check if nearestRecommendedHospital exists in db
-        //     nearestRecommendedHospital = await healthcareFacilityRepository.findOneBy({ id: nearestRecommendedHospitalId });
-        //     if (!nearestRecommendedHospital) {
-        //         return res.status(400).json({ error: 'Nearest recommended hospital not found' });
-        //     }
-        // }
-
-        // Create Mustersammlung entry
-        
-        //     const mustersammlung = mustersammlungRepository.create({
-        //         type: scheinTypeEntity,
-        //         patient: patientEntity,
-        //         patientInsurance: patientInsuranceEntity,
-        //         doctor: doctor,
-        //         date: new Date(date),
-        //         healthcareFacility: healthCareFacility,
-        //         hospitalTreatmentPerscriptionType: hospitalTreatmentPerscriptionType,
-        //         nearestRecommendedHospital,
-        //         perscriptionDetails,
-        //         diagnose
-        //     } as DeepPartial<Mustersammlung> );
-        
-
-        // await mustersammlungRepository.save(mustersammlung);
-  
 };
 
+//generate schein pdf
 export const generateScheinPDF = async (req: Request, res: Response) => {
 
     const { scheinTypeId, scheinId } = req.params;
@@ -176,23 +78,84 @@ export const generateScheinPDF = async (req: Request, res: Response) => {
         res.status(500).json({ error: error.message});
     }
 
-     // // Generate PDF
-        // const doc = new PDFKit();
-        // let pdfBuffer: Buffer;
-        // doc.on('data', (chunk) => {
-        //     pdfBuffer = chunk;
-        // });
-        // doc.on('end', () => {
-        //     res.setHeader('Content-Type', 'application/pdf');
-        //     res.setHeader('Content-Disposition', 'attachment; filename="schein.pdf"');
-        //     res.send(pdfBuffer);
-        // });
+}
 
-        // doc.text('Schein Details:');
-        // doc.text(`Patient: ${firstName} ${lastName}`);
-        // doc.text(`Diagnosis: ${diagnose}`);
-        // doc.text(`Prescription Details: ${perscriptionDetails}`);
-        // doc.end();
+export const getAllHealthCareFacility = async (req: Request, res: Response) => {
+    try {
+        const healthcareFacilityRepository = AppDataSource.getRepository(HealthcareFacility);
+        const healthcareFacilities = await healthcareFacilityRepository.find();
 
+        if(!healthcareFacilities || healthcareFacilities.length <=0){
+            return res.status(400).json({ error: 'Error healthcare facilities not found!' });
+        }
+        return res.status(200).json({ message: 'Successfully get all healthcare facilities', data:healthcareFacilities});
+
+    } catch (error:any) {
+        res.status(500).json({ error: error.message});
+    }
+
+}
+
+export const getAllDoctors = async (req: Request, res: Response) => {
+    try {
+        const doctorRepository = AppDataSource.getRepository(Doctor);
+        const doctors = await doctorRepository.find();
+
+        if(!doctors || doctors.length <=0){
+            return res.status(400).json({ error: 'Error doctors not found!' });
+        }
+        return res.status(200).json({ message: 'Successfully get all registered doctors.', data:doctors});
+
+    } catch (error:any) {
+        res.status(500).json({ error: error.message});
+    }
+
+}
+
+export const getAllScheinType = async (req: Request, res: Response) => {
+    try {
+        const scheinTypeRepository = AppDataSource.getRepository(ScheinType);
+        const scheinType = await scheinTypeRepository.find();
+
+        if(!scheinType || scheinType.length <=0){
+            return res.status(400).json({ error: 'Error schein types not found!' });
+        }
+        return res.status(200).json({ message: 'Successfully get all schein types.', data:scheinType});
+
+    } catch (error:any) {
+        res.status(500).json({ error: error.message});
+    }
+
+}
+
+export const getAllInsuranceProvider = async (req: Request, res: Response) => {
+    try {
+        const insuranceProviderRepository = AppDataSource.getRepository(InsuranceProvider);
+        const insuranceProvider = await insuranceProviderRepository.find();
+
+        if(!insuranceProvider || insuranceProvider.length <=0){
+            return res.status(400).json({ error: 'Error insurance provider not found!' });
+        }
+        return res.status(200).json({ message: 'Successfully get all insurance provider.', data:insuranceProvider});
+
+    } catch (error:any) {
+        res.status(500).json({ error: error.message});
+    }
+
+}
+
+export const getAllHospitalTreatmentType = async (req: Request, res: Response) => {
+    try {
+        const hospitalTreatmentPerscriptionTypeRepository = AppDataSource.getRepository(HospitalTreatmentPerscriptionType);
+        const hospitalTraetmentType = await hospitalTreatmentPerscriptionTypeRepository.find();
+
+        if(!hospitalTraetmentType || hospitalTraetmentType.length <=0){
+            return res.status(400).json({ error: 'Error hospital treatment type not found!' });
+        }
+        return res.status(200).json({ message: 'Successfully get all hospital treatment type.', data:hospitalTraetmentType});
+
+    } catch (error:any) {
+        res.status(500).json({ error: error.message});
+    }
 
 }

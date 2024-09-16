@@ -21,9 +21,11 @@ export const ScheinAPI = {
   createSchein: async (scheinData: any) => {
     return axios.post(`${API_BASE_URL}/schein`, scheinData);
   },
-  generatePdf: async (scheinTypeId: number, scheinId: number) => {
-    return axios.get(`${API_BASE_URL}/generate-pdf/${scheinTypeId}/${scheinId}`);
+  generatePdf: async (scheinTypeId: number, scheinId: number, config = {}) => {
+    return axios.get(`${API_BASE_URL}/generate-pdf/${scheinTypeId}/${scheinId}`, config);
   },
+ 
+
 };
 
 

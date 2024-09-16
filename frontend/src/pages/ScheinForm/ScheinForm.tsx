@@ -54,18 +54,51 @@ const ScheinForm: React.FC = () => {
 
   const handleSubmit = async () => {
     if (validateForm()) {
-        try {
-            const response = await ScheinAPI.createSchein(formData);
-            await ScheinAPI.generatePdf(response.data.type.id, response.data.id);
-            alert('Schein created and PDF generated successfully!');
-        } catch (error) {
-            console.error('Error creating schein:', error);
-            alert('Error creating schein.');
-        }
+        handleCreateScheinAndGeneratePDF(formData)
     }else {
         alert('Please enter all required fields before submitting.');
     }
   };
+
+  const handleCreateScheinAndGeneratePDF = async (formData: FormData) => {
+    try {
+        const createScheinResponse = await ScheinAPI.createSchein(formData);
+        console.log("CRATE SCHEIN RESPONSE",JSON.stringify(createScheinResponse, null, 2))
+        
+        // Check if the response is not undefined, not null, and contains necessary data
+        if (createScheinResponse && createScheinResponse.data && createScheinResponse.data.data) {
+            const scheinData = createScheinResponse.data.data;
+
+            // Call the generatePdf API
+            const generatePdfResponse = await ScheinAPI.generatePdf(scheinData.type.id, scheinData.id, {responseType: 'arraybuffer'});
+            console.log("GENERATE PDF RESPONSE",JSON.stringify(generatePdfResponse, null, 2))
+            if (generatePdfResponse && generatePdfResponse.data) {
+                
+                const blob = new Blob([generatePdfResponse.data], { type: 'application/pdf' });
+
+                const pdfUrl = URL.createObjectURL(blob);
+                window.open(pdfUrl, '_blank');
+
+                // trigger a download of the PDF file
+                const downloadLink = document.createElement('a');
+                downloadLink.href = pdfUrl;
+                downloadLink.download = `${scheinData.type.name}_${scheinData.id}.pdf`;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+            } else {
+                console.error("Failed to generate PDF.");
+                alert('Failed to generate PDF.');
+            }
+        } else {
+            console.error("Invalid response from createSchein API.");
+            alert('Invalid response from createSchein API.');
+        }
+    } catch (error:any) {
+        console.error("Error creating Schein or generating PDF:", error);
+        alert('Error creating Schein or generating PDF:' + error.message);
+    }
+};
 
   return (
     <div className="schein-form">
@@ -81,7 +114,7 @@ const ScheinForm: React.FC = () => {
             <HealthInfo onChange={handleChange} formData={formData} errors={errors} />
             <PaymentInfo onChange={handleChange} formData={formData} errors={errors} />
 
-            <button onClick={handleSubmit}>Preview & Save</button>
+            <button onClick={handleSubmit}>Save & Preview</button>
             </>  
         )}
       

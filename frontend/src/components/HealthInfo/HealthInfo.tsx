@@ -30,7 +30,10 @@ const HealthInfo: React.FC<HealthInfoProps> = ({ onChange, formData, errors }) =
                 };
         
                 console.log("updated details",updatedDetails );
-                onChange(FIELD_NAMES.DETAILS, updatedDetails);
+                onChange(FIELD_NAMES.DETAILS, {
+                    ...formData.details,  
+                    ...updatedDetails,   
+                });
                 return updatedDetails;
             });
         }else{
@@ -45,7 +48,10 @@ const HealthInfo: React.FC<HealthInfoProps> = ({ onChange, formData, errors }) =
                 [key]: value,
             };
        
-            onChange(FIELD_NAMES.DETAILS, updatedDetails);
+            onChange(FIELD_NAMES.DETAILS, {
+                ...formData.details,  
+                ...updatedDetails,   
+            });
             return updatedDetails;
         });
     }

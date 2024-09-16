@@ -11,7 +11,7 @@ interface PatientInfoProps {
 }
 
 const PatientInfo: React.FC<PatientInfoProps> = ({ onChange, formData, errors }) => {
-    const [patient, setPatient] = useState<any[]>([]);
+    const [, setPatient] = useState<any[]>([]);
 
     const today = new Date();
 
@@ -23,12 +23,21 @@ const PatientInfo: React.FC<PatientInfoProps> = ({ onChange, formData, errors })
     const handleDateChange = (date: Date | null) => {
         if (date) {
           // Convert date to YYYY-MM-DD format
-          const formattedDate = date.toISOString().split('T')[0];
-          setPatient((prevData) => ({
-            ...prevData,
-            [FIELD_NAMES.DATE_OF_BIRTH]: formattedDate,
-          }));
-          onChange(FIELD_NAMES.PATIENT, patient);
+            const formattedDate = date.toISOString().split('T')[0];
+       
+            setPatient((prevData) => {
+                const updatedPatient = {
+                ...prevData,
+                [FIELD_NAMES.DATE_OF_BIRTH]: formattedDate,
+                };
+            
+                onChange(FIELD_NAMES.PATIENT, {
+                ...formData.patient,  
+                ...updatedPatient,   
+                });
+            
+                return updatedPatient;
+            });
         }
     };
 
@@ -39,12 +48,14 @@ const PatientInfo: React.FC<PatientInfoProps> = ({ onChange, formData, errors })
             [key]: value,
           };
       
-          // Now use the updated patient data to update the formData
-          onChange(FIELD_NAMES.PATIENT, updatedPatient);
+          onChange(FIELD_NAMES.PATIENT, {
+            ...formData.patient,  
+            ...updatedPatient,   
+          });
       
           return updatedPatient;
         });
-      };
+    };
 
     return (
         <div>

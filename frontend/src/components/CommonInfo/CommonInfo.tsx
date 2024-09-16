@@ -14,6 +14,7 @@ interface CommonInfoProps {
 const CommonInfo: React.FC<CommonInfoProps> = ({ onChange, formData, errors }) => {
     const [facilities, setFacilities] = useState<any[]>([]);
     const [doctors, setDoctors] = useState<any[]>([]);
+    const [, setDetails] = useState<any[]>([]);
 
     const today = new Date();
 
@@ -24,8 +25,19 @@ const CommonInfo: React.FC<CommonInfoProps> = ({ onChange, formData, errors }) =
     }, []);
 
     const handleFacilityChange = (option: any) => {
-        onChange(FIELD_NAMES.HEALTHCARE_FACILITY_ID, option.value);
-      };
+        setDetails((prevData) => {
+            const updatedDetails = {
+                ...prevData,
+                [FIELD_NAMES.HEALTHCARE_FACILITY_ID]: option.value,
+            };
+       
+            onChange(FIELD_NAMES.DETAILS, {
+                ...formData.details,  
+                ...updatedDetails,   
+            });
+            return updatedDetails;
+        });
+    };
 
     const handleDoctorChange = (option: any) => {
         onChange(FIELD_NAMES.DOCTOR_ID, option.value);

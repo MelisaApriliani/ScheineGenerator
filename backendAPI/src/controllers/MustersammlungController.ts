@@ -154,8 +154,7 @@ export const generatePdf = async (scheinId: number) => {
         console.log(`Page rotation: ${rotation}`);
 
         let size = 12;
-       
-        page.drawText(`${schein.patient.firstName}, ${schein.patient.lastName}`, {x: 28.5,  y: 228,font:helveticaFont,  size, color: rgb(0, 0, 0),});
+        drawWrappedText(page, `${schein.patient.firstName}, ${schein.patient.lastName}`, 28.5, 228,180,70,helveticaFont,size)
         page.drawText(`${schein.patient.dateOfBirth}`, {x:185,y:210,size,color: rgb(0, 0, 0),});
         page.drawText(`${schein.healthcareFacility.healthcareFacilityNumber}`, {x:28.5,y:155,size,color: rgb(0, 0, 0),});
         page.drawText(`${schein.doctor.licenseNumber}`, {x:108,y:155,size,color: rgb(0, 0, 0),});

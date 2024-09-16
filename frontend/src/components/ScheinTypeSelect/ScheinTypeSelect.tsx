@@ -49,7 +49,7 @@ const ScheinTypeSelect: React.FC<ScheinTypeSelectProps> = ({ selectedType, onSel
         value={selectedOption}  // Ensure selectedType matches the OptionType
         options={options}
         onChange={handleScheinTypeChange}
-        placeholder="Select Schein Type"
+        placeholder="Select schein type"
         />
       {error && <div className="error">{error}</div>}
       </div>

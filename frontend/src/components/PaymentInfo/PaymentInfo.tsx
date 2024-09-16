@@ -57,7 +57,7 @@ const PaymentInfo: React.FC<PaymentInfoProps> = ({ onChange, formData, errors })
             <Select
                 options={insuranceProviders.map((insurance: any) => ({ value: insurance.id, label: insurance.name }))}
                 onChange={(e) => handleInputChange(FIELD_NAMES.INSURANCE_PROVIDER_ID, e?.value)}
-                placeholder="Select Insurance Provider"
+                placeholder="Select insurance provider"
             />
             {errors[FIELD_NAMES.INSURANCE_PROVIDER_ID] && <div className="error">{errors[FIELD_NAMES.INSURANCE_PROVIDER_ID]}</div>}
         </div>

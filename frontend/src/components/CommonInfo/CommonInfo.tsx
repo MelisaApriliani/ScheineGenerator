@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { ScheinAPI } from '../../webservices/ScheinAPI';
 import Select from 'react-select';
-import './CommonInfo.css';
 import { FIELD_NAMES } from '../../constants/FieldName'; 
 
 interface CommonInfoProps {
@@ -72,7 +71,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({ onChange, formData, errors }) =
                     <Select
                         options={facilities.map((facility: any) => ({ value: facility.id, label: facility.name }))}
                         onChange={handleFacilityChange}
-                        placeholder="Select Healthcare Facility"
+                        placeholder="Select healthcare facility"
                     />
                     {errors[FIELD_NAMES.HEALTHCARE_FACILITY_ID] && <div className="error">{errors[FIELD_NAMES.HEALTHCARE_FACILITY_ID]}</div>}
                 </div>
@@ -81,7 +80,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({ onChange, formData, errors }) =
                     <Select
                         options={doctors.map((doctor: any) => ({ value: doctor.id, label: `${doctor.firstName} ${doctor.lastName}` }))}
                         onChange={handleDoctorChange}
-                        placeholder="Select Doctor"
+                        placeholder="Select doctor"
                     />
                     {errors[FIELD_NAMES.DOCTOR_ID] && <div className="error">{errors[FIELD_NAMES.DOCTOR_ID]}</div>}
                 </div>

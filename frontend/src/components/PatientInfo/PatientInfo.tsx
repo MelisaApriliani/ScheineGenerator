@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import './PatientInfo.css';
 import { FIELD_NAMES } from '../../constants/FieldName'; 
 
 interface PatientInfoProps {
@@ -65,13 +64,13 @@ const PatientInfo: React.FC<PatientInfoProps> = ({ onChange, formData, errors })
         <div className="patient-info">
             <div className="form-group">
                     <label>First Name</label>
-                    <input type="text" value={formData[FIELD_NAMES.PATIENT]?.[FIELD_NAMES.FIRST_NAME] || ""} onChange={(e) => handleTextFieldChange(FIELD_NAMES.FIRST_NAME, e.target.value)} />
+                    <input type="text" placeholder="Enter first name" value={formData[FIELD_NAMES.PATIENT]?.[FIELD_NAMES.FIRST_NAME] || ""} onChange={(e) => handleTextFieldChange(FIELD_NAMES.FIRST_NAME, e.target.value)} />
                     {errors[FIELD_NAMES.FIRST_NAME] && <div className="error">{errors[FIELD_NAMES.FIRST_NAME]}</div>}
 
             </div>
             <div className="form-group">
                     <label>Last Name</label>
-                    <input type="text" value={formData[FIELD_NAMES.PATIENT]?.[FIELD_NAMES.LAST_NAME] || ""} onChange={(e) => handleTextFieldChange(FIELD_NAMES.LAST_NAME, e.target.value)} />
+                    <input type="text" placeholder="Enter last name" value={formData[FIELD_NAMES.PATIENT]?.[FIELD_NAMES.LAST_NAME] || ""} onChange={(e) => handleTextFieldChange(FIELD_NAMES.LAST_NAME, e.target.value)} />
                     {errors[FIELD_NAMES.LAST_NAME] && <div className="error">{errors[FIELD_NAMES.LAST_NAME]}</div>}
             </div>
             <div className="form-group">

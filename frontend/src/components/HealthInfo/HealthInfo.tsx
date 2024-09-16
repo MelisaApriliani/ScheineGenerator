@@ -80,7 +80,7 @@ const HealthInfo: React.FC<HealthInfoProps> = ({ onChange, formData, errors }) =
                             label: fetchedTreatmentTypes[0].name
                         })
                     }
-                  });
+                });
             }else{
                 handleTreatmentType(FIELD_NAMES.HOSPITAL_TREATMENT_TYPE,{
                     value: treatmentTypes[0].id,
@@ -103,6 +103,7 @@ const HealthInfo: React.FC<HealthInfoProps> = ({ onChange, formData, errors }) =
                 <label>Diagnosis</label>
                 <input
                     type="text"
+                    placeholder="Enter diagnosis"
                     name="diagnosis"
                     value={formData[FIELD_NAMES.DETAILS]?.[FIELD_NAMES.DIAGNOSE] || ""}
                     onChange={(e) => handleInputChange(FIELD_NAMES.DIAGNOSE, e.target.value)}
@@ -111,14 +112,16 @@ const HealthInfo: React.FC<HealthInfoProps> = ({ onChange, formData, errors }) =
                 {errors[FIELD_NAMES.DIAGNOSE] && <div className="error">{errors[FIELD_NAMES.DIAGNOSE]}</div>}
             </div>
 
-            
-            <input
-                type="checkbox"
-                name="hospitalTreatmentRequest"
-                checked={isRequestForHospitalTreatment}
-                onChange={handleCheckboxChange}
-            />
-            <label>Request Hospital Treatment:</label>
+            <div className="checkbox-group">
+            <label>
+                <input
+                    type="checkbox"
+                    name="hospitalTreatmentRequest"
+                    checked={isRequestForHospitalTreatment}
+                    onChange={handleCheckboxChange}
+                />
+                Request Hospital Treatment</label>
+            </div>
         
             {isRequestForHospitalTreatment && (
                 <>
@@ -129,7 +132,7 @@ const HealthInfo: React.FC<HealthInfoProps> = ({ onChange, formData, errors }) =
                         value={selectedTreatmentType}
                         options={treatmentTypes.map((type: any) => ({ value: type.id, label: type.name }))}
                         onChange={(selectedOption) => handleTreatmentType(FIELD_NAMES.HOSPITAL_TREATMENT_TYPE, selectedOption)} 
-                        placeholder="Select Treatment Type"
+                        placeholder="Select treatment type"
                         required
                     />
                     {errors[FIELD_NAMES.HOSPITAL_TREATMENT_TYPE] && <div className="error">{errors[FIELD_NAMES.HOSPITAL_TREATMENT_TYPE]}</div>}
@@ -152,6 +155,7 @@ const HealthInfo: React.FC<HealthInfoProps> = ({ onChange, formData, errors }) =
                 <label>Other Prescription Details</label>
                 <input
                     type="text"
+                    placeholder="Enter other perscription details"
                     name="prescriptionDetails"
                     value={formData[FIELD_NAMES.DETAILS]?.[FIELD_NAMES.PERSCRIPTION_DETAILS] || ""}
                     onChange={(e) => handleInputChange(FIELD_NAMES.PERSCRIPTION_DETAILS, e.target.value)}

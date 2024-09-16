@@ -15,6 +15,11 @@ html, body, #root, #main {
   overflow-y: auto; /* Allow scrolling if content exceeds viewport height */
 }
 
+body, input, select, textarea, button {
+  font-family: 'Helvetica Neue', Arial, sans-serif; 
+  font-size: 14px; 
+}
+
 .common-info, .patient-info, .schein-type-info, .health-info, .payment-info-container {
   padding: 16px;
   background-color: #f8d2c2;
@@ -28,3 +33,33 @@ html, body, #root, #main {
   margin-top: 5px;
   font-size: 14px;
 }
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #2684FF;
+  box-shadow: 0 0 0 1px #2684FF; 
+}
+
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 4px;
+  font-family: 'Helvetica Neue', Arial, sans-serif; 
+  color: #333;
+}
+

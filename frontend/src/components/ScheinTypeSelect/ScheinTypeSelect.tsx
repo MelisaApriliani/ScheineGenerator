@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import './ScheinTypeSelect.css';
+import React, { useEffect, useState } from 'react';
 import { ScheinAPI } from '../../webservices/ScheinAPI';
+import Select from 'react-select';
+import { OptionType } from '../../constants/FieldName';
+import './ScheinTypeSelect.css';
 
 interface ScheinTypeSelectProps {
   selectedType: number; // Change to number since we are passing id
@@ -10,6 +12,14 @@ interface ScheinTypeSelectProps {
 const ScheinTypeSelect: React.FC<ScheinTypeSelectProps> = ({ selectedType, onSelectType }) => {
   const [scheinTypes, setScheinTypes] = useState<{ id: number; name: string }[]>([]);
   const [error, setError] = useState<string | null>(null);
+
+   // Create an array of options using OptionType
+  const options: OptionType[] = scheinTypes.map((scheinType) => ({
+        value: scheinType.id,
+        label: scheinType.name,
+  }));
+  const selectedOption = options.find(option => option.value === selectedType) || null;
+
 
   useEffect(() => {
     const fetchScheinTypes = async () => {
@@ -25,25 +35,22 @@ const ScheinTypeSelect: React.FC<ScheinTypeSelectProps> = ({ selectedType, onSel
     fetchScheinTypes();
   }, []);
 
+  const handleScheinTypeChange = (option: any) => {
+    onSelectType(option.value);
+  };
+
   return (
     <div className="schein-type-select-container">
       <label htmlFor="scheinType" className="schein-type-label">
         Schein Type
       </label>
       <div className="schein-type-info">
-      <select
-        id="scheinType"
-        value={selectedType}
-        onChange={(e) => onSelectType(Number(e.target.value))} // Convert value to number
-        className="schein-type-dropdown"
-      >
-        <option value="">Select a Schein type</option>
-        {scheinTypes.map((type) => (
-          <option key={type.id} value={type.id}>
-            {type.name}
-          </option>
-        ))}
-      </select>
+      <Select
+        value={selectedOption}  // Ensure selectedType matches the OptionType
+        options={options}
+        onChange={handleScheinTypeChange}
+        placeholder="Select Schein Type"
+        />
       {error && <div className="error">{error}</div>}
       </div>
     </div>

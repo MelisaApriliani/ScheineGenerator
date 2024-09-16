@@ -7,7 +7,8 @@ import PatientInfo from '../../components/PatientInfo/PatientInfo';
 import { ScheinAPI } from '../../webservices/ScheinAPI';
 import './ScheinForm.css';
 import { FormData  } from '../../constants/FieldName';
-import { validateCommonInfo, validatePatientInfo } from '../../util/Validation'; 
+import { validateCommonInfo, validatePatientInfo, validateHealthInfo } from '../../util/Validation'; 
+import HealthInfo from '../../components/HealthInfo/HealthInfo';
 
 const ScheinForm: React.FC = () => {
   const [selectedScheinType, setSelectedScheinType] = useState<number | undefined>(undefined);
@@ -44,6 +45,7 @@ const ScheinForm: React.FC = () => {
         formErrors = { ...formErrors, ...validateCommonInfo(formData) };
         // Merge errors from validatePatientInfo with formErrors
         formErrors = { ...formErrors, ...validatePatientInfo(formData) };
+        formErrors = { ...formErrors, ...validateHealthInfo(formData) };
     }
 
     // Set the combined errors
@@ -79,6 +81,7 @@ const ScheinForm: React.FC = () => {
             <>
             <CommonInfo onChange={handleChange} formData={formData} errors={errors} />
             <PatientInfo onChange={handleChange} formData={formData} errors={errors} />
+            <HealthInfo onChange={handleChange} formData={formData} errors={errors} />
 
             <button onClick={handleSubmit}>Preview & Save</button>
             </>

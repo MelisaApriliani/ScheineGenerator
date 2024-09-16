@@ -15,7 +15,7 @@ html, body, #root, #main {
   overflow-y: auto; /* Allow scrolling if content exceeds viewport height */
 }
 
-.common-info, .patient-info, .schein-type-info {
+.common-info, .patient-info, .schein-type-info, .health-info {
   padding: 16px;
   background-color: #f8d2c2;
   border: 1px solid #ec3c35;

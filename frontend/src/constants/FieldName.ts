@@ -19,3 +19,8 @@ export const FIELD_NAMES = {
 
 // Define a base type for form data
 export type FormData = Record<string, any>;
+
+export type OptionType = {
+    value: string | number;
+    label: string;
+  };

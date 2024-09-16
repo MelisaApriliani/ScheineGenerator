@@ -126,7 +126,7 @@ export const generatePdf = async (scheinId: number) => {
     const scheinRepository = AppDataSource.getRepository(Mustersammlung);
     const schein = await scheinRepository.findOne({ 
         where: { id: Number(scheinId) }, 
-        relations: ['type', 'patient', 'doctor', 'patientInsurance', 'healthcareFacility', 'hospitalTreatmentPerscriptionType', 'nearestRecommendedHospital']
+        relations: ['type', 'patient', 'doctor', 'patientInsurance','patientInsurance.insuranceProvider', 'healthcareFacility', 'hospitalTreatmentPerscriptionType', 'nearestRecommendedHospital']
     });
     if (!schein) {
         throw new Error('Schein not found');
@@ -164,9 +164,7 @@ export const generatePdf = async (scheinId: number) => {
         console.log(`patientInsurance:` + JSON.stringify(schein.patientInsurance, null, 2));
 
         if(schein.patientInsurance && schein.patientInsurance?.id >0){
-            const insuranceProviderRepository = AppDataSource.getRepository(InsuranceProvider);
-            const insuranceProvider = await insuranceProviderRepository.findOneBy({ id: schein.patientInsurance?.id });
-        
+            const insuranceProvider = schein.patientInsurance.insuranceProvider;
             if(insuranceProvider && insuranceProvider !== null){
                 console.log(`insurance provider:` + insuranceProvider.id+ ' '+insuranceProvider.insuranceIdentificationNumber);
                 page.drawText(`${insuranceProvider.name}`, {x:28.5,y:260,size,color: rgb(0, 0, 0),});

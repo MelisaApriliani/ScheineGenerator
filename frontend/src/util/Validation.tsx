@@ -8,11 +8,17 @@ export const validateCommonInfo = (formData: any) => {
     if (!formData[FIELD_NAMES.DATE]) {
       errors[FIELD_NAMES.DATE] = 'Date is required!';
     }
-    if (!formData[FIELD_NAMES.HEALTHCARE_FACILITY_ID] || (formData[FIELD_NAMES.HEALTHCARE_FACILITY_ID] <= 0)) {
-      errors[FIELD_NAMES.HEALTHCARE_FACILITY_ID] = 'Healthcare Facility is required!';
-    }
+   
     if (!formData[FIELD_NAMES.DOCTOR_ID] || (formData[FIELD_NAMES.DOCTOR_ID] <= 0)) {
       errors[FIELD_NAMES.DOCTOR_ID] = 'Doctor is required!';
+    }
+
+    if (!formData[FIELD_NAMES.DETAILS] || formData[FIELD_NAMES.DETAILS] == null || formData[FIELD_NAMES.DETAILS].length <=0 ) {
+        errors[FIELD_NAMES.HEALTHCARE_FACILITY_ID] = 'Healthcare Facility is required!';
+    }else{
+        if (!formData[FIELD_NAMES.DETAILS]?.[FIELD_NAMES.HEALTHCARE_FACILITY_ID] || (formData[FIELD_NAMES.DETAILS]?.[FIELD_NAMES.HEALTHCARE_FACILITY_ID] <= 0)) {
+            errors[FIELD_NAMES.HEALTHCARE_FACILITY_ID] = 'Healthcare Facility is required!';
+        }
     }
   
     return errors;
@@ -57,9 +63,24 @@ export const validateHealthInfo = (formData: any) => {
             }
         }
     }
-
     return errors;
+}
 
+export const validatePaymentInfo = (formData: any) => {
+    const errors: { [key: string]: string } = {};
+
+    if(formData[FIELD_NAMES.PATIENT]?.[FIELD_NAMES.INSURANCE_PROVIDER_ID] >0 ){
+        if (!formData[FIELD_NAMES.PATIENT][FIELD_NAMES.INSURANCE_NO] || formData[FIELD_NAMES.PATIENT][FIELD_NAMES.INSURANCE_NO] <=0) {
+            errors[FIELD_NAMES.INSURANCE_NO] = 'Insurance number is required if payment by usinf insurance!';
+        }
+    }
+
+    if(!isNullOrEmpty(formData[FIELD_NAMES.PATIENT]?.[FIELD_NAMES.INSURANCE_NO])){
+        if (!formData[FIELD_NAMES.PATIENT][FIELD_NAMES.INSURANCE_PROVIDER_ID] || formData[FIELD_NAMES.PATIENT][FIELD_NAMES.INSURANCE_PROVIDER_ID] <=0) {
+            errors[FIELD_NAMES.INSURANCE_PROVIDER_ID] = 'Please select insurance provider of this patient\'s insurance';
+        }
+    }
+    return errors;
 }
 
 function isNullOrEmpty(value: string | null | undefined): boolean {

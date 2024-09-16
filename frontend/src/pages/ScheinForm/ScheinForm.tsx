@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import ScheinTypeSelect from '../../components/ScheinTypeSelect/ScheinTypeSelect';
 import CommonInfo from '../../components/CommonInfo/CommonInfo';
 import PatientInfo from '../../components/PatientInfo/PatientInfo';
-// import HealthInfo from '../HealthInfo/HealthInfo';
-// import PaymentInfo from '../PaymentInfo/PaymentInfo';
-import { ScheinAPI } from '../../webservices/ScheinAPI';
-import './ScheinForm.css';
-import { FormData  } from '../../constants/FieldName';
-import { validateCommonInfo, validatePatientInfo, validateHealthInfo } from '../../util/Validation'; 
 import HealthInfo from '../../components/HealthInfo/HealthInfo';
+import PaymentInfo from '../../components/PaymentInfo/PaymentInfo';
+import { ScheinAPI } from '../../webservices/ScheinAPI';
+import { FIELD_NAMES, FormData  } from '../../constants/FieldName';
+import { validateCommonInfo, validatePatientInfo, validateHealthInfo, validatePaymentInfo } from '../../util/Validation'; 
+import './ScheinForm.css';
 
 const ScheinForm: React.FC = () => {
   const [selectedScheinType, setSelectedScheinType] = useState<number | undefined>(undefined);
@@ -22,8 +21,7 @@ const ScheinForm: React.FC = () => {
 
   const handleScheinTypeChange = (typeId: number) => {
     setSelectedScheinType(typeId);
-    // Other logic related to the selected Schein type
-    // setFormData({});
+    handleChange(FIELD_NAMES.SCHEIN_TYPE_ID,typeId)
   };
 
   const handleChange = (field: string, value: any) => {
@@ -41,11 +39,10 @@ const ScheinForm: React.FC = () => {
 
     // Validate based on the selected Schein type
     if (selectedScheinType === 1) {
-        // Merge errors from validateCommonInfo with formErrors
         formErrors = { ...formErrors, ...validateCommonInfo(formData) };
-        // Merge errors from validatePatientInfo with formErrors
         formErrors = { ...formErrors, ...validatePatientInfo(formData) };
         formErrors = { ...formErrors, ...validateHealthInfo(formData) };
+        formErrors = { ...formErrors, ...validatePaymentInfo(formData) };
     }
 
     // Set the combined errors
@@ -82,14 +79,12 @@ const ScheinForm: React.FC = () => {
             <CommonInfo onChange={handleChange} formData={formData} errors={errors} />
             <PatientInfo onChange={handleChange} formData={formData} errors={errors} />
             <HealthInfo onChange={handleChange} formData={formData} errors={errors} />
+            <PaymentInfo onChange={handleChange} formData={formData} errors={errors} />
 
             <button onClick={handleSubmit}>Preview & Save</button>
-            </>
-
-            
+            </>  
         )}
-      {/* <HealthInfo onChange={handleChange} />
-      <PaymentInfo onChange={handleChange} /> */}
+      
       
     </div>
   );

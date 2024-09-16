@@ -1,99 +1,79 @@
-import React, { useState, useEffect } from 'react';
-import './PaymentInfo.css'; // Import the CSS file for styling
-import axios from 'axios'; // Assuming you're using axios for API calls
+import React, { useEffect, useState } from 'react';
+import { ScheinAPI } from '../../webservices/ScheinAPI';
+import Select from 'react-select';
+import './PaymentInfo.css';
+import { FIELD_NAMES } from '../../constants/FieldName'; 
 
 interface PaymentInfoProps {
-  onPaymentMethodChange: (isInsurance: boolean) => void;
-  onInsuranceProviderChange: (insuranceProvider: string) => void;
-  onInsuranceNumberChange: (insuranceNumber: string) => void;
+    onChange: (field: string, value: any) => void;
+    formData: any;
+    errors: { [key: string]: string };
 }
 
-const PaymentInfo: React.FC<PaymentInfoProps> = ({
-  onPaymentMethodChange,
-  onInsuranceProviderChange,
-  onInsuranceNumberChange,
-}) => {
-  const [isInsuranceChecked, setIsInsuranceChecked] = useState(false);
+
+const PaymentInfo: React.FC<PaymentInfoProps> = ({ onChange, formData, errors }) => {
   const [insuranceProviders, setInsuranceProviders] = useState<string[]>([]);
-  const [insuranceProvider, setInsuranceProvider] = useState('');
-  const [insuranceNumber, setInsuranceNumber] = useState('');
+  const [, setPatient] = useState<any[]>([]);
 
   // Fetch insurance providers from the API
   useEffect(() => {
     const fetchInsuranceProviders = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/api/insurance-providers');
-        setInsuranceProviders(response.data);
-      } catch (error) {
-        console.error('Error fetching insurance providers', error);
-      }
+        try {
+            ScheinAPI.getInsuranceProviders().then((response) => setInsuranceProviders(response.data.data));
+        } catch (error) {
+            console.error('Error fetching insurance providers', error);
+        }
     };
 
-    if (isInsuranceChecked) {
-      fetchInsuranceProviders(); // Fetch the providers only if the insurance checkbox is checked
-    }
-  }, [isInsuranceChecked]);
+    fetchInsuranceProviders(); // Fetch the providers only if the insurance checkbox is checked
+   
+  }, []);
 
-  const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.checked;
-    setIsInsuranceChecked(isChecked);
-    onPaymentMethodChange(isChecked);
+  const handleInputChange = (key: string, value: number | string | null) => {
+    setPatient((prevData) => {
+        const updatedPatient = {
+            ...prevData,  
+            [key]: value,  
+        };
+        onChange(FIELD_NAMES.PATIENT, {
+            ...formData.patient,  
+            ...updatedPatient,   
+        });
+ 
+        return updatedPatient;
+    });
   };
 
-  const handleInsuranceProviderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setInsuranceProvider(e.target.value);
-    onInsuranceProviderChange(e.target.value);
-  };
-
-  const handleInsuranceNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInsuranceNumber(e.target.value);
-    onInsuranceNumberChange(e.target.value);
-  };
+  const handleInsuranceNo = (key: string, value: string) => {
+    handleInputChange(key, value);
+    handleInputChange(FIELD_NAMES.STATUS,(value != null && value.length >0 ) ? 'active' :'');
+  }
 
   return (
     <div className="payment-info-container">
-      <div className="payment-info-field">
-        <label htmlFor="insurance">
-          <input
-            type="checkbox"
-            id="insurance"
-            checked={isInsuranceChecked}
-            onChange={handlePaymentMethodChange}
-          />
-          Payment by Insurance
-        </label>
-      </div>
-
-      {isInsuranceChecked && (
-        <>
-          <div className="payment-info-field">
+      
+        <div className="form-group">
             <label htmlFor="insurance-provider">Insurance Provider</label>
-            <select
-              id="insurance-provider"
-              value={insuranceProvider}
-              onChange={handleInsuranceProviderChange}
-            >
-              <option value="">Select an insurance provider</option>
-              {insuranceProviders.map((provider) => (
-                <option key={provider} value={provider}>
-                  {provider}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="payment-info-field">
+            <Select
+                options={insuranceProviders.map((insurance: any) => ({ value: insurance.id, label: insurance.name }))}
+                onChange={(e) => handleInputChange(FIELD_NAMES.INSURANCE_PROVIDER_ID, e?.value)}
+                placeholder="Select Insurance Provider"
+            />
+            {errors[FIELD_NAMES.INSURANCE_PROVIDER_ID] && <div className="error">{errors[FIELD_NAMES.INSURANCE_PROVIDER_ID]}</div>}
+        </div>
+          
+        <div className="form-group">
             <label htmlFor="insurance-number">Insurance Number</label>
             <input
               type="text"
               id="insurance-number"
               placeholder="Enter insurance number"
-              value={insuranceNumber}
-              onChange={handleInsuranceNumberChange}
+              value={formData[FIELD_NAMES.PATIENT]?.[FIELD_NAMES.INSURANCE_NO] || ""}
+              onChange={(e) => handleInsuranceNo(FIELD_NAMES.INSURANCE_NO, e.target.value)} 
             />
-          </div>
-        </>
-      )}
+            {errors[FIELD_NAMES.INSURANCE_NO] && <div className="error">{errors[FIELD_NAMES.INSURANCE_NO]}</div>}
+
+        </div>
     </div>
   );
 };

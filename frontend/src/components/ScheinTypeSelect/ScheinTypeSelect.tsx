@@ -44,7 +44,7 @@ const ScheinTypeSelect: React.FC<ScheinTypeSelectProps> = ({ selectedType, onSel
           </option>
         ))}
       </select>
-      {error && <div className="schein-type-error">{error}</div>}
+      {error && <div className="error">{error}</div>}
       </div>
     </div>
   );

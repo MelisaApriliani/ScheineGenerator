@@ -22,3 +22,9 @@ html, body, #root, #main {
   border-radius: 8px;
   margin-bottom: 16px;
 }
+
+.error {
+  color: red;
+  margin-top: 5px;
+  font-size: 12px;
+}

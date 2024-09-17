@@ -91,15 +91,15 @@ cd ScheineGenerator
 
     Test front end on browser using this url "http://localhost:5137
 
-note:if you are using different port on frontend, undate this line in app.ts in /backendAPI
+    note:if you are using different port on frontend, undate this line in app.ts in /backendAPI
 
-      ```bash
-const corsOptions = {
-  origin: 'http://localhost:5173', //change it to your port
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
-};
-      ```
+    ```bash
+    const corsOptions = {
+    origin: 'http://localhost:5173', //change it to your port
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+    };
+    ```
 
 
 ### API Endpoints
@@ -202,8 +202,13 @@ Sample API response:
 
 ### GET /api/generate-pdf/{schein_type_id}/{schein_id}
 
-    Description: Generate pdf of the created Schein 
-    Sample API call: http://localhost:3000/api/generate-pdf/1/20
+Description: Generate pdf of the created Schein 
+
+Sample API call: 
+
+    ```bash
+    http://localhost:3000/api/generate-pdf/1/20
     Response:  "arraybuffer" of pdf data
+    ```
 
 

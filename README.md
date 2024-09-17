@@ -30,65 +30,87 @@ cd ScheineGenerator
     ```
 
 2. Install Dependencies
-
+    ```bash
     npm install
+    ```
 
 3. Create a PostgreSQL database
-
+    ```bash
     psql -U postgres
     CREATE DATABASE schein;
+    ```
 
 4. Configure the database connection
-
+    ```bash
     Open .env and update it with your PostgreSQL credentials:
     DATABASE_HOST=localhost
     DATABASE_PORT=5432
     DATABASE_USERNAME=postgres
     DATABASE_PASSWORD=your_password
     DATABASE_NAME=Schein
+    ```
+
+    
 
 5. Run TypeORM migrations to create the database schema
-
+ 
+    ```bash
     npx tsc
     npx typeorm migration:run -d dist/ormconfig.js
+    ```
 
     note: there are 2 migrations in this backend subproject (/src/migration). make sure you your database schema correctly generated with some predefined      data in these tables: doctor,healthcare_facility,insurance_provider, hospital_treatment_perscription_type, schein_type
 
 6. Start the backend server
-
+    ```bash
     npm run build
     npm start
+    ```
 
 ### Set Up the Frontend
 
 1. Navigate to the frontend folder
 
-cd frontend
+    ```bash
+    cd frontend
+    ```
 
 2. Install dependencies
 
-npm install
-
+    ```bash
+    npm install
+    ```bash
 3. Start the frontend development server
 
-npm run dev
+    ```bash
+    npm run dev
+    ```bash
+
 
 4. Test frontend
 
-Test front end on browser using this url "http://localhost:5137
+    Test front end on browser using this url "http://localhost:5137
 
 note:if you are using different port on frontend, undate this line in app.ts in /backendAPI
+
+      ```bash
 const corsOptions = {
   origin: 'http://localhost:5173', //change it to your port
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 };
+      ```
 
 
 ### API Endpoints
-### POST /api/schein
+### POST /api/Schein
+
 Description: Stores the form data in the database
-Sample API call:http://localhost:3000/api/schein
+
+Sample API call:
+
+```bash
+http://localhost:3000/api/schein
  "headers": {
     "content-type": "application/json; charset=utf-8"
   },
@@ -176,9 +198,12 @@ Sample API response:
     }
 }
 
+```
+
 ### GET /api/generate-pdf/{schein_type_id}/{schein_id}
-Description: Generate pdf of the created Schein 
-Sample API call: http://localhost:3000/api/generate-pdf/1/20
-Response:  "arraybuffer" of pdf data
+
+    Description: Generate pdf of the created Schein 
+    Sample API call: http://localhost:3000/api/generate-pdf/1/20
+    Response:  "arraybuffer" of pdf data
 
 

@@ -212,3 +212,23 @@ Sample API call:
     ```
 
 
+## Technologies Used
+
+Backend: ExpressJS, TypeORM, PostgreSQL, PDFKit
+
+Frontend: Vite, React
+
+PDF Generation: PDFKit
+
+Database: PostgreSQL
+
+## Troubleshooting
+
+1. Port Conflicts:
+
+    If the default ports (5000 for backend, 3000 for frontend) are in use, you can change them in the backendAPI/.env file (for backend) or frontend/vite.config.js (for frontend).
+
+2. Database Connection Issues:
+
+    Ensure PostgreSQL is running and the credentials in .env are correct.
+Run **psql -U postgres -l** to check your database status.

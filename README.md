@@ -4,22 +4,29 @@ A system for doctors to generate various types of "Scheine" (e.g., AU, Überweis
 ## Project Structure
 The project is divided into two main parts:
 
-Backend: Built with ExpressJS, TypeORM, and PostgreSQL. Handles data storage and PDF generation.
-Frontend: Built with Vite and React. Provides an interface for doctors to input the required information and preview the PDF.
+**Backend:** Built with ExpressJS, TypeORM, and PostgreSQL. Handles data storage and PDF generation.
+
+**Frontend:** Built with Vite and React. Provides an interface for doctors to input the required information and preview the PDF.
 
 ## Prerequisites
 Before starting, make sure you have the following installed on your system:
 
-1. Node.js (v16 or above): Download Node.js
-2. PostgreSQL (v12 or above): Download PostgreSQL (Remember the PostgreSQL credentials you have set here)
-3. Git: Download Git
-4. PDF Viewer: To preview the generated PDF files
+
+**Node.js (v16 or above):** Download Node.js
+
+**PostgreSQL (v12 or above):** Download PostgreSQL (Remember the PostgreSQL credentials you have set here)
+
+**Git:** Download Git
+
+**PDF Viewer:** To preview the generated PDF files
 
 ## Installation Instructions
 
-1. Clone the Repository
+Clone the Repository
+```bash
 git clone https://github.com/MelisaApriliani/ScheineGenerator.git
 cd ScheineGenerator
+```
 
 
 ### Set Up the Backend

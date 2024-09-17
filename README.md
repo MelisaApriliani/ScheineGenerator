@@ -25,7 +25,9 @@ cd ScheineGenerator
 ### Set Up the Backend
 
 1. Navigate to the backend folder
+    ```bash
     cd backendAPI
+    ```
 
 2. Install Dependencies
 

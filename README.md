@@ -21,7 +21,7 @@ Before starting, make sure you have the following installed on your system:
 
 ## Installation Instructions
 
-###Clone the Repository
+### Clone the Repository
 ```bash
 git clone https://github.com/MelisaApriliani/ScheineGenerator.git
 cd ScheineGenerator

@@ -206,21 +206,21 @@ Description: Generate pdf of the created Schein
 
 Sample API call: 
 
-    ```bash
+    
     http://localhost:3000/api/generate-pdf/1/20
     Response:  "arraybuffer" of pdf data
-    ```
+    
 
 
 ## Technologies Used
 
-Backend: ExpressJS, TypeORM, PostgreSQL, PDFKit
+**Backend:** ExpressJS, TypeORM, PostgreSQL, PDFlib
 
-Frontend: Vite, React
+**Frontend:** Vite, React
 
-PDF Generation: PDFKit
+**PDF Generation:** PDFlib
 
-Database: PostgreSQL
+**Database:** PostgreSQL
 
 ## Troubleshooting
 

@@ -24,16 +24,21 @@ cd ScheineGenerator
 
 ### Set Up the Backend
 
-1. Go to backend directory
+1. Navigate to the backend folder
+
 cd backendAPI
 
 2. Install Dependencies
+
 npm install
 
 3. Create a PostgreSQL database
+
+psql -U postgres
 CREATE DATABASE schein;
 
 4. Configure the database connection
+
 Open .env and update it with your PostgreSQL credentials:
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
@@ -41,11 +46,39 @@ DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=your_password
 DATABASE_NAME=Schein
 
-5. Run TypeORM migrations to create the database schema:
-npm run typeorm migration:run
+5. Run TypeORM migrations to create the database schema
+
+npx tsc
+npx typeorm migration:run -d dist/ormconfig.js
 
 note: there are 2 migrations in this backend subproject (/src/migration). make sure you your database schema correctly generated with some predefined data in these tables: doctor,healthcare_facility,insurance_provider, hospital_treatment_perscription_type, schein_type
 
 6. Start the backend server
+
 npm run build
 npm start
+
+### Set Up the Frontend
+
+1. Navigate to the frontend folder
+
+cd frontend
+
+2. Install dependencies
+
+npm install
+
+3. Start the frontend development server
+
+npm run dev
+
+4. Test frontend
+
+Test front end on browser using this url "http://localhost:5137
+
+note:if you are using different port on frontend, undate this line in app.ts in /backendAPI
+const corsOptions = {
+  origin: 'http://localhost:5173', //change it to your port
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+};

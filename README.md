@@ -82,3 +82,102 @@ const corsOptions = {
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 };
+
+
+### API Endpoints
+### POST /api/schein
+Description: Stores the form data in the database
+Sample API call:http://localhost:3000/api/schein
+ "headers": {
+    "content-type": "application/json; charset=utf-8"
+  },
+Request body:
+{
+  "scheinTypeId": 1,
+  "date": "2024-09-16",
+  "patient": {
+    "dateOfBirth": "2024-06-12",
+    "firstName": "Elena",
+    "lastName": "Twill",
+    "insuranceProviderId": 1,
+    "insuranceNo": "110949849234",
+    "status": "active"
+  },
+  "details": {
+    "hospitalTreatmentPerscriptionTypeId": 3,
+    "nearestRecommendedHospitalId": 4,
+    "healthCareFacilityId": 3,
+    "diagnose": "fever",
+    "perscriptionDetails": "paracetamol, pain killer"
+  },
+  "doctorId": 2
+}
+
+Sample API response:
+{
+    "message": "Successfully save schein information.",
+    "data": {
+        "date": "2024-09-16T00:00:00.000Z",
+        "perscriptionDetails": "paracetamol, pain killer",
+        "diagnose": "fever",
+        "type": {
+            "id": 1,
+            "name": "Mustersammlung"
+        },
+        "patient": {
+            "firstName": "Elena",
+            "lastName": "Twill",
+            "id": 4,
+            "dateOfBirth": "2024-06-12"
+        },
+        "doctor": {
+            "firstName": "Jane",
+            "lastName": "Smith",
+            "specialization": "General Doctor",
+            "licenseNumber": "LIC234567",
+            "phoneNumber": "234-567-8901",
+            "email": "jane.smith@example.com",
+            "id": 2
+        },
+        "patientInsurance": {
+            "insuranceNo": "110949849234",
+            "status": "active",
+            "id": 8,
+            "patient": {
+                "firstName": "Elena",
+                "lastName": "Twill",
+                "id": 4,
+                "dateOfBirth": "2024-06-12"
+            },
+            "insuranceProvider": {
+                "id": 1,
+                "name": "Blue Cross",
+                "insuranceIdentificationNumber": "INS123456"
+            }
+        },
+        "healthcareFacility": {
+            "name": "Suburban Health Center",
+            "address": "789 Oak St",
+            "healthcareFacilityNumber": "HF003",
+            "id": 3
+        },
+        "hospitalTreatmentPerscriptionType": {
+            "id": 3,
+            "name": "Notfall"
+        },
+        "nearestRecommendedHospital": {
+            "name": "Community Medical Center",
+            "address": "101 Pine St",
+            "healthcareFacilityNumber": "HF004",
+            "id": 4
+        },
+        "id": 19
+    }
+}
+
+### GET /api/generate-pdf/{schein_type_id}/{schein_id}
+Description: Generate pdf of the created Schein 
+Sample API call: http://localhost:3000/api/generate-pdf/1/20
+Response:  "arraybuffer" of pdf data
+
+
